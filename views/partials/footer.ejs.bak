@@ -6,10 +6,9 @@
 <br>
 <br>
 <br>
-<br>
         <p></p>
         <% let year = (new Date()).getFullYear() %>
-        <p style="float:right">&copy;<%= year %> Work Management</p>
+        <p style="float:right;">&copy;<%= year %> Work Management</p>
       </div>
     </div>
 
