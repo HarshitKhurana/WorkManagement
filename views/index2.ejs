@@ -1,0 +1,42 @@
+<!-- views/index.ejs -->
+<html lang="en">
+    <head>
+        <% include partials/head %>
+    </head>
+
+    <body>
+        <header>
+            <% include partials/header %>
+        </header>
+
+        <main>
+            <!-- input form -->
+            <div class="container">
+                <row>
+                    <h1 class="text-center">Add an Entry</h1> <p class = "text-center" >(Same or empty enteries not allowed)</p>
+
+                    <form class="col-6 mx-auto" action="/newtodo" method="POST">
+                        <input type="text" name="heading" placeholder="Heading...">                <span> <br> <br> 
+                        <input type="text" name="task"     placeholder="Task explaination...">     <span> <br> <br> 
+                        <input type="text" name="group"    placeholder="Group name..">             <span> <br> <br> 
+                        <input type="text" name="deadline" placeholder="Deadline...">              <span> <br> <br> 
+                        <br>
+                    <input type="Submit" id="submit">
+                    </form>
+                </row>
+                <!-- unordered list (ul) -->
+                <div class="row">
+                    <ul class="col-6 mx-auto">
+                        <% for(var i = 0; i < workList.length; i++) { %>
+                            <li type="1"> <%= workList[i] %> </i>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <% include partials/footer %>
+        </footer>
+    </body>
+</html>
