@@ -17,7 +17,7 @@
                 <row>
                     <h1 class="text-center">Add an Entry</h1> <p class = "text-center" >(Enteries with same heading not allowed)</p>
 
-                    <form class="col-6 mx-auto" action="/newtodo" method="POST">
+                    <form class="col-6 mx-auto" action="/task/new" method="POST">
                         <input type="text" class="form-control" name="heading" required="true" placeholder="Heading...">                <span> <br> 
                         <input type="text" class="form-control" name="task"    required="true" placeholder="Task explaination...">     <span> <br> 
                         <input type="text" class="form-control" name="group"   required="true" placeholder="Group name..">             <span> <br> 
@@ -30,7 +30,7 @@
                 <div class="row">
                     <ul class="col-6 mx-auto">
                         <% for(var i = 0; i < workList.length; i++) { %>
-                            <li type="1"><%=workList[i] %> </i>
+                            <li type="1"><%=workList[i]%> </i>
                         <% } %>
                     </ul>
                 </div>
