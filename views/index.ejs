@@ -7,10 +7,26 @@
   <% include partials/head %>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="br" >
+  <script type= "text/javascript" src="./calender.js">
+  </script>
+</div>
+
 </head>
 <style>
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   color: black;
+   text-align: center;
+}
 body {margin: 0;}
 
+.tl { position: absolute; top:100; left: 0; right: 30%; bottom: 100   }
+.tr { position: absolute; top: 14%; left: 70%; right: 0; bottom: %  }
+ 
 ul.topnav {
   list-style-type: none;
   margin: 0;
@@ -61,29 +77,337 @@ ul.topnav li.right {float: right;}
   <li><a href="./group">Groups</a></li>
 </ul>
 
-<div style="padding:0 16px;">
-  <h2 class="text-center">Pending Tasks List...</h2> <p class = "text-center" >
-  <div class="row">
-      <ul class="col-6 mx-auto">
-          <% for(var i = 0; i < workList.length; i++) { %>
-                <details>
-                  <summary style="color:blue"> <%=workList[i][0]%> </summary> 
-                  <p style="font-size:18px";><b>Heading  &nbsp;&emsp;:</b> <%=workList[i][0]%></p> 
-                  <p style="font-size:18px";><b>Group    &emsp;&emsp;:</b> <%=workList[i][2]%></p> 
-                  <p style="font-size:18px";><b>Deadline &emsp;:</b> <%=workList[i][3]%></p> 
-                  <p style="font-size:18px";><b>Completed   &nbsp;:</b><style="color:red;"><mark> <%=workList[i][4]%></mark></p> 
-                  <p style="font-size:18px";><b>Task &emsp;&emsp;&emsp;:</b> <%=workList[i][1]%></p> 
-                </details>
-              <br>
-              
-          <% } %>
-      </ul>
+<div class="tl">
+  <div style="padding:0 16px;">
+    <h2 class="text-center">Pending Tasks List...</h2> <p class = "text-center" >
+    <div class="row">
+        <ul class="col-6 mx-auto">
+            <% for(var i = 0; i < workList.length; i++) { %>
+                  <details>
+                    <summary style="color:blue"> <%=workList[i][0]%> </summary> 
+                    <p style="font-size:18px";><b>Heading  &nbsp;&emsp;:</b> <%=workList[i][0]%></p> 
+                    <p style="font-size:18px";><b>Group    &emsp;&emsp;:</b> <%=workList[i][2]%></p> 
+                    <p style="font-size:18px";><b>Deadline &emsp;:</b> <%=workList[i][3]%></p> 
+                    <p style="font-size:18px";><b>Completed   &nbsp;:</b><mark> <%=workList[i][4]%></mark></p> 
+                    <p style="font-size:18px";><b>Task &emsp;&emsp;&emsp;:</b> <%=workList[i][1]%></p> 
+                  </details>
+                <br>
+                
+            <% } %>
+        </ul>
+    </div>
   </div>
-</div>
+</div>  
+
+<div class="tr" style="border:solid">
+<style>
+@main-bg:#333;
+@calendar-border:rgb(255,255,255);
+@calendar-bg:#333;
+@calendar-standout:rgb(255,255,255);
+@calendar-color:#444;
+@calendar-fade-color:#c0c0c0;
+@body-color:#888;
+
+html, body {
+  height:100%;
+}
+body {
+  font-size:100%;
+  line-height:1.5;
+  font-family: "Roboto Condensed", sans-serif;
+  background:@main-bg;
+  background-image:linear-gradient(@main-bg 0%, darken(@main-bg,12%) 100%);
+  color:@body-color;
+}
+
+*, *:before, *:after {
+  box-sizing:border-box;
+}
+
+.group {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+img {
+  max-width:100%;
+  height:auto;
+  vertical-align:baseline;
+}
+
+a {
+  text-decoration:none;
+}
+
+.max(@maxWidth;
+  @rules) {
+    @media only screen and (max-width: @maxWidth) {
+      @rules();
+    }
+  }
+
+.min(@minWidth;
+  @rules) {
+    @media only screen and (min-width: @minWidth) {
+      @rules();
+    }
+  }
+
+
+.calendar-wrapper {
+  width:360px;
+  margin:3em auto;
+  padding:2em;
+  border:1px solid @calendar-border;
+  border-radius:5px;
+  background:@calendar-bg;
   
+}
+table {
+  clear:both;
+  width:100%;
+  border:1px solid @calendar-border;
+  border-radius:3px;
+  border-collapse:collapse;
+  color:@calendar-color;
+}
+td {
+  height:48px;
+  text-align:center;
+  vertical-align:middle;
+  border-right:1px solid @calendar-border;
+  border-top:1px solid @calendar-border;
+  width:100% / 7;
+}
+td.not-current {
+  color:@calendar-fade-color;;
+}
+td.normal {}
+td.today {
+  font-weight:700;
+  color:@calendar-standout;
+  font-size:1.5em;
+}
+thead td {
+  border:none;
+  color:@calendar-standout;
+  text-transform:uppercase;
+  font-size:1.5em;
+}
+#btnPrev {
+  float:left;
+  margin-bottom:20px;
+  &:before {
+    content:'\f104';
+    background-color: brown;
+    font-family:FontAwesome;
+    padding-right:4px;
+  }
+}
+#btnNext {
+  float:right;
+  margin-bottom:20px;
+  &:after {
+    content:'\f105';
+    font-family:FontAwesome;
+    padding-left:4px;
+  }
+}
+#btnPrev, #btnNext {
+  background:transparent;
+  border:none;
+  outline:none;
+  font-size:1em;
+  color:@calendar-fade-color;
+  cursor:pointer;
+  font-family:"Roboto Condensed", sans-serif;
+  text-transform:uppercase;
+  transition:all 0.3s ease;
+  &:hover {
+    color:@calendar-standout;
+    font-weight:bold;
+  }
+}
+</style>
+<script>
+var Cal = function(divId) {
+
+  //Store div id
+  this.divId = divId;
+
+  // Days of week, starting on Sunday
+  this.DaysOfWeek = [
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat'
+  ];
+
+  // Months, stating on January
+  this.Months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
+
+  // Set the current month, year
+  var d = new Date();
+
+  this.currMonth = d.getMonth();
+  this.currYear = d.getFullYear();
+  this.currDay = d.getDate();
+
+};
+
+// Goes to next month
+Cal.prototype.nextMonth = function() {
+  if ( this.currMonth == 11 ) {
+    this.currMonth = 0;
+    this.currYear = this.currYear + 1;
+  }
+  else {
+    this.currMonth = this.currMonth + 1;
+  }
+  this.showcurr();
+};
+
+// Goes to previous month
+Cal.prototype.previousMonth = function() {
+  if ( this.currMonth == 0 ) {
+    this.currMonth = 11;
+    this.currYear = this.currYear - 1;
+  }
+  else {
+    this.currMonth = this.currMonth - 1;
+  }
+  this.showcurr();
+};
+
+// Show current month
+Cal.prototype.showcurr = function() {
+  this.showMonth(this.currYear, this.currMonth);
+};
+
+// Show month (year, month)
+Cal.prototype.showMonth = function(y, m) {
+
+  var d = new Date()
+  // First day of the week in the selected month
+  , firstDayOfMonth = new Date(y, m, 1).getDay()
+  // Last day of the selected month
+  , lastDateOfMonth =  new Date(y, m+1, 0).getDate()
+  // Last day of the previous month
+  , lastDayOfLastMonth = m == 0 ? new Date(y-1, 11, 0).getDate() : new Date(y, m, 0).getDate();
+
+
+  var html = '<table>';
+
+  // Write selected month and year
+  html += '<thead><tr>';
+  html += '<td colspan="7">' + this.Months[m] + ' ' + y + '</td>';
+  html += '</tr></thead>';
+
+
+  // Write the header of the days of the week
+  html += '<tr class="days">';
+  for(var i=0; i < this.DaysOfWeek.length;i++) {
+    html += '<td>' + this.DaysOfWeek[i] + '</td>';
+  }
+  html += '</tr>';
+
+  // Write the days
+  var i=1;
+  do {
+
+    var dow = new Date(y, m, i).getDay();
+
+    // If Sunday, start new row
+    if ( dow == 0 ) {
+      html += '<tr>';
+    }
+    // If not Sunday but first day of the month
+    // it will write the last days from the previous month
+    else if ( i == 1 ) {
+      html += '<tr>';
+      var k = lastDayOfLastMonth - firstDayOfMonth+1;
+      for(var j=0; j < firstDayOfMonth; j++) {
+        html += '<td class="not-current">' + k + '</td>';
+        k++;
+      }
+    }
+
+    // Write the current day in the loop
+    var chk = new Date();
+    var chkY = chk.getFullYear();
+    var chkM = chk.getMonth();
+    if (chkY == this.currYear && chkM == this.currMonth && i == this.currDay) {
+      html += '<td class="today">' + i + '</td>';
+    } else {
+      html += '<td class="normal">' + i + '</td>';
+    }
+    // If Saturday, closes the row
+    if ( dow == 6 ) {
+      html += '</tr>';
+    }
+    // If not Saturday, but last day of the selected month
+    // it will write the next few days from the next month
+    else if ( i == lastDateOfMonth ) {
+      var k=1;
+      for(dow; dow < 6; dow++) {
+        html += '<td class="not-current">' + k + '</td>';
+        k++;
+      }
+    }
+
+    i++;
+  }while(i <= lastDateOfMonth);
+
+  // Closes table
+  html += '</table>';
+
+  // Write HTML to the div
+  document.getElementById(this.divId).innerHTML = html;
+};
+
+// On Load of the window
+window.onload = function() {
+
+  // Start calendar
+  var c = new Cal("divCal");      
+  c.showcurr();
+
+  // Bind next and previous button clicks
+  getId('btnNext').onclick = function() {
+    c.nextMonth();
+  };
+  getId('btnPrev').onclick = function() {
+    c.previousMonth();
+  };
+}
+
+// Get element by id
+function getId(id) {
+  return document.getElementById(id);
+}
+</script>
+<div class="calendar-wrapper">
+  <button id="btnPrev" type="button" background-color="brown">Prev</button>
+    <button id="btnNext" type="button">Next</button>
+  <div id="divCal"></div>
+</div>
+
+
+
+</div>
+<div class="footer">
   <footer>
       <% include partials/footer %>
   </footer>
-
+</div>
 </body>
+
+
 </html>

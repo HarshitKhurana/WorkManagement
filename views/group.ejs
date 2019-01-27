@@ -6,6 +6,15 @@
 * {
   box-sizing: border-box;
 }
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   color: black;
+   text-align: center;
+}
+body {margin: 0;}
 
 .columns {
   float: left;
@@ -127,9 +136,11 @@ ul.topnav li.right {float: right;}
 	<ul class="nGroup"><h3>Only groups with active 'Notes' are considered, so make sure to add 'Note' with any recently added group, else group would cease to exist.</h3></ul>
 </div>
 
-  <footer>
-      <% include partials/footer %>
-  </footer>
+<div class="footer">
+<footer>
+    <% include partials/footer %>
+</footer>
+</div>
 
 </body>
 </html>
