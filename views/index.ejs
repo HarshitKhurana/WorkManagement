@@ -35,10 +35,18 @@ ul.topnav li a.active {background-color: #4CAF50;}
 
 ul.topnav li.right {float: right;}
 
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
 @media screen and (max-width: 600px) {
   ul.topnav li.right, 
   ul.topnav li {float: none;}
 }
+
 </style>
 <body>
 
@@ -58,7 +66,14 @@ ul.topnav li.right {float: right;}
   <div class="row">
       <ul class="col-6 mx-auto">
           <% for(var i = 0; i < workList.length; i++) { %>
-              <li type="1"><%=workList[i]%> </li>
+                <details>
+                  <summary style="color:blue"> <%=workList[i][0]%> </summary> 
+                  <p style="font-size:18px";><b>Heading  &nbsp;&emsp;:</b> <%=workList[i][0]%></p> 
+                  <p style="font-size:18px";><b>Group    &emsp;&emsp;:</b> <%=workList[i][2]%></p> 
+                  <p style="font-size:18px";><b>Deadline &emsp;:</b> <%=workList[i][3]%></p> 
+                  <p style="font-size:18px";><b>Completed   &nbsp;:</b><style="color:red;"><mark> <%=workList[i][4]%></mark></p> 
+                  <p style="font-size:18px";><b>Task &emsp;&emsp;&emsp;:</b> <%=workList[i][1]%></p> 
+                </details>
               <br>
               
           <% } %>
