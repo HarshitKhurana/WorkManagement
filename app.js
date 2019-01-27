@@ -8,21 +8,79 @@ app.set('view engine' , "ejs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-var time = new Date();
-// ["Heading" , "Task Explaination" , "Group Name" , Deadline Time , "Task Status, True = Completed", False = not-completed"]
-// typecast string("false") to bool in JS : a = (a == "false")
-var work = [ "H1" , "T1-Demo" , "G1-Demo" , time , false]
-var headingArr = ["H1" , "H2" , "H3"]
-var workList = [work]
-workList.push([ "H2" , "T2" , "G2" ,new Date(Number(time)-10000), false ])
-workList.push([ "H3" , "T3" , "G3" ,new Date(Number(time)-20000), false ])
+var time = Number(new Date());
+// ["Heading" , "Task Explaination" , "Group Name" , Deadline Time (epoch), "Task Status, True = Completed", False = not-completed" ]
 
-var groupList = ["G1"]
-for (let i =0 ; i < 10 ; i ++){
-  groupList.push("G"+String(i))
+// backend will store epoch front-end will convert it to dateTime
+// typecast string("false") to bool in JS : a = (a == "false")
+
+//    REDIS integration : Pull all data from redis with key being 'workManagementdata'
+var redis = require('redis');
+var client = redis.createClient();
+var workList = [];
+var headingArr = [];
+var groupList = [];
+
+function fetchFromRedis() {
+  console.log ("Since fetching from redis, thus initialising everything will empty list");
+  workList = [];
+  headingArr = [];
+  groupList = [];
+
+  client.hgetall('workManagementdata', function(err, redisData) {
+    console.log ("REDIS REPLY : " , redisData);
+    if (redisData == undefined) {
+      console.log ("REDIS returned empty|null|undefined\n")
+      return;
+    }
+    //console.log("redisData : ",typeof(redisData) , "----->" , JSON.stringify(redisData)) ;
+    var a = Object.values(redisData);
+    //console.log ("JSON : " , a);
+    for (i in a)  {
+      let js = JSON.parse(a[i])
+      var temp = [js["heading"] , js["task"] , js["group"] , js["deadline"] , js["taskStatus"]]
+      headingArr.push(js["heading"]);
+      workList.push(temp);
+      if (!groupList.includes(js["group"])) {
+        groupList.push(js["group"]);
+      }
+    }
+  console.log ("Updating WORKLIST fetched from redis : " ,workList);
+  });
 }
 
-//    REDIS integration left.
+// Function used to update data in redis : Use it after every change made in tasks i.e added|deleted|modified and pass workList as argument.
+function updateDataInRedis(data) {
+  for (let i = 0 ; i < data.length ; i++){
+    console.log ("data[",i,"] : ", data[i])
+    let a = {
+      "heading" : data[i][0],
+      "task" : data[i][1],
+      "group" : data[i][2],
+      "deadline" : data[i][3],
+      "taskStatus" : data[i][4]
+    };
+    client.hset('workManagementdata', String (data[i][0]), JSON.stringify(a), function(reply , err){
+      if(err)
+        console.log ("Error : " ,err)
+      else
+        console.log ("Done for" , i , " : ", String(a));
+    });
+  }
+  // Now update the workList too by fetching back from redis. 
+  fetchFromRedis();
+}
+
+
+
+client.on('connect', function() {
+  console.log('connected to redis, fetching data from redis...');
+  fetchFromRedis();
+});
+
+
+
+
 //    
 //     Routes definition
 
@@ -44,8 +102,8 @@ app.get("/deadline" , function (req , res){
   let tempArr = []; // for ts
   let responseObject = [] ; // It is simply an array of objects sorted as per their timestamp (ascending order).
   for (let  i = 0; i < workList.length; i ++) {
-    tempArr.push( Number(workList[i][3])); // Deadline is at 3rd index , push it's epoch
-    tempObj[Number(workList[i][3])] = workList[i]; // Json of ts:obj for O(1) access.
+    tempArr.push( workList[i][3]); // Deadline is at 3rd index , push it's epoch
+    tempObj[workList[i][3]] = workList[i]; // Json of ts:obj for O(1) access.
   }
   
   tempArr.sort();   // sort tempArr;
@@ -87,7 +145,9 @@ app.post ("/task/completed" , function( req ,res ){
     console.log ("Unable to mark task as completed")
   }
 
-  console.log ("WorkList : " , workList)
+  console.log ("WorkList : " , workList);
+  console.log ("Updating Redis with newly modified data .")
+  updateDataInRedis(workList);
   res.redirect("/");
   return;
 });
@@ -102,8 +162,15 @@ app.post('/task/new' , function (req , res){
   var heading = req.body.heading;     // headingis the name of input fields in index.ejs
   var task = req.body.task;           // task is the name of input fields in index.ejs
   var group = req.body.group;         // group is the name of input fields in index.ejs
-  var deadline = req.body.deadline;   // deadline is the name of input fields in index.ejs
   var taskStatus = false;             //Set default value of taskStatus to 'False'
+  let a = req.body.deadline;   // deadline is the name of input fields in index.ejs (Must be a valid Date time)
+  if (Number.isInteger(deadline)) {
+    console.log ("Front end sent deadline in epoch format , converting now..");
+    var deadline = new Date(a);
+  }
+  else  {
+    var deadline = a;
+  }
   var currArr = [heading , task , group , deadline , taskStatus]
   // They will always have some value
   console.log("currArr : ",currArr)
@@ -117,14 +184,16 @@ app.post('/task/new' , function (req , res){
         res.redirect ("/"); // Send to default route which will have updated list.
         return;
       } 
-  else    {
+  else{
         console.log ("Check Passed pushing");
         headingArr.push(heading); // Push heading in headingArr used for ensuring no 2 enteries has same heading
         workList.push(currArr);
         console.log("New headingArr : ",headingArr)
         console.log ("New Worklist : ", workList)
         res.redirect ("/"); // Send to default route which will have updated list.
-  }
+      }
+  console.log ("Updating Redis with newly modified data .")
+  updateDataInRedis(workList);
   
 });
 
@@ -195,6 +264,12 @@ app.delete("/task/delete", function (req , res){
     }
   }
   console.log("workList after deleting : " , workList);
+  console.log ("Deleting from Redis")
+
+  client.hdel("workManagementdata", heading , function (){
+    console.log ("Deleted from redis : " , heading)
+  });
+  fetchFromRedis();
   res.redirect ("/"); // Send to default route which will have updated list.
 });
 
@@ -223,9 +298,10 @@ app.delete("/group/delete", function (req , res){
     console.error("Error deleting groupName: ",error);
   } 
   console.log("groupList after deleting : " , groupList);
+  console.log ("Updating Redis with newly modified data .")
+  updateDataInRedis(workList);
   res.redirect ("/"); // Send to default route which will have updated list.
 });
-
 
 
 
@@ -234,9 +310,6 @@ app.get("*" , function (req , res){
   console.log ("Request on invalid page. Redirecting...\n")
   res.redirect(302,"/");
 });
-
-
-
 
 
 app.listen(8080 , function (req , res) {
