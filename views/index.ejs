@@ -1,10 +1,9 @@
 <!-- views/index.ejs -->
 <html lang="en">
     <head>
+        <link rel="icon" href="https://ak9.picdn.net/shutterstock/videos/1008345439/thumb/10.jpg?ip=x480" type="image/x-icon">
         <% include partials/head %>
-        <link rel="icon" href="./favicon.ico" type="image/x-icon">
     </head>
-
 
     <body>
         <header>
@@ -18,10 +17,10 @@
                     <h1 class="text-center">Add an Entry</h1> <p class = "text-center" >(Enteries with same heading not allowed)</p>
 
                     <form class="col-6 mx-auto" action="/task/new" method="POST">
-                        <input type="text" class="form-control" name="heading" required="true" placeholder="Heading...">                <span> <br> 
-                        <input type="text" class="form-control" name="task"    required="true" placeholder="Task explaination...">     <span> <br> 
-                        <input type="text" class="form-control" name="group"   required="true" placeholder="Group name..">             <span> <br> 
-                        <input type="text" class="form-control" name="deadline"required="true" placeholder="Deadline...">              <span> <br> 
+                      <input type="text" class="form-control" name="heading" required="true" placeholder="Heading...">                <span> <br> <br>
+                        <input type="text" class="form-control" name="task"    required="true" placeholder="Task explaination...">     <span> <br><br>
+                        <input type="text" class="form-control" name="group"   required="true" placeholder="Group name..">             <span> <br> <br>
+                        <input type="text" class="form-control" name="deadline"required="true" placeholder="Deadline...">              <span> <br> <br>
                     <button type="Submit" class="btn btn-primary" style="background-color:CornflowerBlue;margin:auto;display:block">Submit</button>
                     </form>
                 </row>

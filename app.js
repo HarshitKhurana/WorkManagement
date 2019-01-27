@@ -89,7 +89,7 @@ client.on('connect', function() {
 app.get("/" , function (req , res){
   //res.sendFile(__dirname + '/index.html'); // __dirname is a method of global object
   // ejs page is rendered unlike sending in case of html
-  res.render("index.ejs" , {workList: workList})
+  res.render("newTask.ejs" , {workList: workList})
 });
 
 
@@ -307,7 +307,7 @@ app.delete("/group/delete", function (req , res){
 
 // For un-defined routes
 app.get("*" , function (req , res){
-  console.log ("Request on invalid page. Redirecting...\n")
+  console.log ("Requested resource '",req.params['0'],"' is invalid, Redirecting to '/'...\n");
   res.redirect(302,"/");
 });
 
