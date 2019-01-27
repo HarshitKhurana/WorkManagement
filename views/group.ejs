@@ -61,10 +61,51 @@
   text-align: center;
 }
 
+body {margin: 0;}
+
+ul.topnav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+ul.topnav li {float: left;}
+
+ul.topnav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+ul.topnav li a:hover:not(.active) {background-color: #111;}
+
+ul.topnav li a.active {background-color: #4CAF50;}
+
+ul.topnav li.right {float: right;}
+
+@media screen and (max-width: 600px) {
+  ul.topnav li.right, 
+  ul.topnav li {float: none;}
+}
+
 </style>
 </head>
 <body>
+  <header>
+      <% include partials/header %>
+  </header>
 
+<ul class="topnav">
+  <li><a href="/index">Home</a></li>
+  <li><a href="./task">Tasks</a></li>
+  <li><a href="./group" class="active">Groups</a></li>
+</ul>
+
+<br>
 <h1 style="text-align:center">Groups Table</h1>
 <h3 style="text-align:center">(Group names must be unique & should not include numeric value)</h3>
 <br> <br> <br>
@@ -86,6 +127,9 @@
 	<ul class="nGroup"><h3>Only groups with active 'Notes' are considered, so make sure to add 'Note' with any recently added group, else group would cease to exist.</h3></ul>
 </div>
 
+  <footer>
+      <% include partials/footer %>
+  </footer>
 
 </body>
 </html>

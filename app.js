@@ -192,12 +192,12 @@ app.post('/task/new' , function (req , res){
   console.log("currArr : ",currArr)
   if (headingArr.includes(heading)  )   {
         console.log ("Check failed : " , heading ," is a repeated entry");
-        res.redirect ("/"); // Send to default route which will have updated list.
+        res.redirect ("/task"); // Send to default route which will have updated list.
         return;
       } 
   if (! groupList.includes(group))  {
         console.log (" Group doesn't exists: ",group);
-        res.redirect ("/"); // Send to default route which will have updated list.
+        res.redirect ("/task"); // Send to default route which will have updated list.
         return;
       } 
   else{
@@ -206,7 +206,7 @@ app.post('/task/new' , function (req , res){
         workList.push(currArr);
         console.log("New headingArr : ",headingArr)
         console.log ("New Worklist : ", workList)
-        res.redirect ("/"); // Send to default route which will have updated list.
+        res.redirect ("/task"); // Send to default route which will have updated list.
       }
   console.log ("Updating Redis with newly modified data .")
   updateDataInRedis(workList);
@@ -235,19 +235,19 @@ app.post('/group/new' , function (req , res){
   for (let i = 0 ; i < 10; i ++)  {
     if (newGroupReq.includes(String(i))){
       console.log("group should not contain any numeric value : " ,newGroupReq);
-      res.redirect ("/"); // Send to default route which will have updated list.
+      res.redirect ("/group"); // Send to default route which will have updated list.
       return;
     }
   }
 
   if (groupList.includes(newGroupReq) || groupList.includes(newGroupReq.toLowerCase()) || newGroupReq === "" )  {
     console.error("Request failed, group already present");
-    res.redirect ("/"); // Send to default route which will have updated list.
+    res.redirect ("/group"); // Send to default route which will have updated list.
     return;
   }
   groupList.push(newGroupReq);
   console.log ("Request : Added group");
-  res.redirect ("/"); // Send to default route which will have updated list.
+  res.redirect ("/group"); // Send to default route which will have updated list.
 });
 
 

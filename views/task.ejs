@@ -3,8 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
+body 
 
 input[type=text], select, textarea {
   width: 100%;
@@ -35,10 +34,54 @@ input[type=submit]:hover {
   background-color: #f2f2f2;
   padding: 20px;
 }
+body {margin: 0;}
+
+ul.topnav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+ul.topnav li {float: left;}
+
+ul.topnav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+ul.topnav li a:hover:not(.active) {background-color: #111;}
+
+ul.topnav li a.active {background-color: #4CAF50;}
+
+ul.topnav li.right {float: right;}
+
+.buttonHolder{ text-align: center; }
+
+@media screen and (max-width: 600px) {
+  ul.topnav li.right, 
+  ul.topnav li {float: none;}
+}
+
+
 </style>
 </head>
 <body>
+  <header>
+      <% include partials/header %>
+  </header>
 
+<ul class="topnav">
+  <li><a href="/index">Home</a></li>
+  <li><a href="./task" class="active">Tasks</a></li>
+  <li><a href="./group">Groups</a></li>
+</ul>
+
+<br>
 <h1 align="center">Enter New Task</h1>
 <h4 align="center">( Enteries with same heading not allowed )</h4>
 
@@ -51,13 +94,17 @@ input[type=submit]:hover {
       <% for(var i = 0; i < groupList.length; i++) { %>
         <option value='<%= groupList[i] %>'><%= groupList[i] %></option>
       <% } %>
-    </select> 
-    
-    <b> Deadline </b> <input type="date" class="form-control" name="deadline" required="true" min="2018-01-00"> <span> <br> <br>
-    
-    <input type="submit" value="Submit">
+    </select>     
+    <b> Deadline </b> <input type="date" class="form-control" name="deadline" required="true" min="2018-01-00"> <span> <br> 
+    <div class="buttonHolder">
+      <input type="submit" value="Submit">
+    </div>
   </form>
 </div>
+
+  <footer>
+      <% include partials/footer %>
+  </footer>
 
 </body>
 </html>
