@@ -6,7 +6,10 @@
 <br>
 <br>
 	<% let year = (new Date()).getFullYear() %>
-	<p style="float:right">&copy;<%= year %> Work Management</p>
+	<% let month = (new Date()).getMonth()+1 %>
+	<% let date = (new Date()).getDate() %>
+	<p style="float:right">Work Management &reg; 
+	 <br><%= date %>/<%= month %>/<%= year %></p>
 
   </div>
 </footer>

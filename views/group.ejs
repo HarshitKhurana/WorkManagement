@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.columns {
+  float: left;
+  width: 33.3%;
+  padding: 8px;
+}
+
+.nGroup {
+  list-style-type: none;
+  border: 1px solid #eee;
+  margin: 0;
+  padding: 0;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.nGroup:hover {
+  box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+}
+
+.nGroup .header {
+  background-color: #111;
+  color: white;
+  font-size: 25px;
+}
+
+.nGroup li {
+  border-bottom: 1px solid #eee;
+  padding: 20px;
+  text-align: center;
+}
+
+.nGroup .grey {
+  background-color: #eee;
+  font-size: 25px;
+}
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.center-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+</style>
+</head>
+<body>
+
+<h1 style="text-align:center">Groups Table</h1>
+<h3 style="text-align:center">(Group names must be unique & should not include numeric value)</h3>
+<br> <br> <br>
+<div  class="center-screen" style="width:800px; margin:0 auto;">
+
+	<ul class="nGroup">
+		<% for(var i = 0; i < groupList.length; i++) { %>
+	    	<li  class="grey" type="0"><b><%=groupList[i]%> </b></i>
+		<% } %>  
+		<li>
+	
+	<form class="col-6 mx-auto" action="/group/new" method="POST">
+	<input type="text" class="grey" class="nGroup" name="group" placeholder="New Group..."> </li>
+	</ul>
+	<br>
+	<input type="submit" class="button" value="Add Group" >
+	</form>
+	<br>
+	<ul class="nGroup"><h3>Only groups with active 'Notes' are considered, so make sure to add 'Note' with any recently added group, else group would cease to exist.</h3></ul>
+</div>
+
+
+</body>
+</html>
