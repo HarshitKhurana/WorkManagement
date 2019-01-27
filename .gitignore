@@ -1,4 +1,5 @@
 node_modules/
+redisData/
 *.sw*
 *.notes
 *.Notes

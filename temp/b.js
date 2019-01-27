@@ -36,7 +36,7 @@ function updateRedisData(data){
       "deadline" : data[i][3],
       "taskStatus" : data[i][4]
     };
-    client.hset('workManagementdata', String (i), JSON.stringify(a), function(reply , err){
+    client.hset('workManagementdata', String (data[i][0]), JSON.stringify(a), function(reply , err){
       if(err)
         console.log ("Error : " ,err)
       else
@@ -44,7 +44,7 @@ function updateRedisData(data){
     });
   }
 }
-put(dataa);
+updateRedisData(dataa);
 
 
 

@@ -89,8 +89,25 @@ client.on('connect', function() {
 app.get("/" , function (req , res){
   //res.sendFile(__dirname + '/index.html'); // __dirname is a method of global object
   // ejs page is rendered unlike sending in case of html
-  res.render("newTask.ejs" , {workList: workList})
+  console.log ("request on '/' workList : ",workList , " \t groupList : " ,groupList)
+  res.render("index.ejs" , {workList: workList , groupList: groupList});
+  return;
 });
+
+// redirect to tasks page.
+app.get("/task" , function (req , res){
+  console.log ("request on '/task' workList : ",workList , " \t groupList : " ,groupList)
+  res.render("task.ejs" , {workList: workList , groupList: groupList})
+  return;
+});
+
+// redirect to group page.
+app.get("/group" , function (req , res){
+  console.log ("request on '/group' workList : ",workList , " \t groupList : " ,groupList)
+  res.render("group.ejs" , {workList: workList , groupList: groupList});
+  return;
+});
+
 
 
 
@@ -98,6 +115,11 @@ app.get("/" , function (req , res){
 // Get request to fetch tasks and return them in sorted order
 app.get("/deadline" , function (req , res){
   console.log ("request arrived on '/deadline', returning JSON of sorted dates");
+  res.redirect('/');
+  return;
+
+// NEED TO FIX THIS AS FRONTEND SENDS DEADLINE IN : yyyy-mm-dd format. 
+
   let tempObj = {};  // for ts:obj
   let tempArr = []; // for ts
   let responseObject = [] ; // It is simply an array of objects sorted as per their timestamp (ascending order).
@@ -163,14 +185,8 @@ app.post('/task/new' , function (req , res){
   var task = req.body.task;           // task is the name of input fields in index.ejs
   var group = req.body.group;         // group is the name of input fields in index.ejs
   var taskStatus = false;             //Set default value of taskStatus to 'False'
-  let a = req.body.deadline;   // deadline is the name of input fields in index.ejs (Must be a valid Date time)
-  if (Number.isInteger(deadline)) {
-    console.log ("Front end sent deadline in epoch format , converting now..");
-    var deadline = new Date(a);
-  }
-  else  {
-    var deadline = a;
-  }
+  let deadline = req.body.deadline;   // deadline is the name of input fields in index.ejs (Must be a valid Date time)
+  
   var currArr = [heading , task , group , deadline , taskStatus]
   // They will always have some value
   console.log("currArr : ",currArr)
@@ -224,7 +240,7 @@ app.post('/group/new' , function (req , res){
     }
   }
 
-  if (groupList.includes(newGroupReq) || groupList.includes(newGroupReq.toLowerCase()))  {
+  if (groupList.includes(newGroupReq) || groupList.includes(newGroupReq.toLowerCase()) || newGroupReq === "" )  {
     console.error("Request failed, group already present");
     res.redirect ("/"); // Send to default route which will have updated list.
     return;
