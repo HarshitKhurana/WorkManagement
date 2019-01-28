@@ -89,7 +89,7 @@ client.on('connect', function() {
 app.get("/" , function (req , res){
   //res.sendFile(__dirname + '/index.html'); // __dirname is a method of global object
   // ejs page is rendered unlike sending in case of html
-  console.log ("request on '/' workList : ",workList , " \t groupList : " ,groupList)
+//  console.log ("request on '/' workList : ",workList , " \t groupList : " ,groupList)
   res.render("index.ejs" , {workList: workList , groupList: groupList});
   return;
 });
@@ -107,7 +107,6 @@ app.get("/group" , function (req , res){
   res.render("group.ejs" , {workList: workList , groupList: groupList});
   return;
 });
-
 
 
 
@@ -255,7 +254,7 @@ app.post('/group/new' , function (req , res){
 
 
 // delete request to delete a specific task depending on heading
-app.delete("/task/delete", function (req , res){
+app.post("/task/delete", function (req , res){
   var heading = req.body.heading;     // headingis the name of input fields in index.ejs
   console.log("Deleting  heading:",heading);
   console.log("Current headingArr : " , headingArr)
@@ -263,7 +262,7 @@ app.delete("/task/delete", function (req , res){
 
   if (! headingArr.includes(heading)  )   {
     console.log("heading not found...redirecting");
-    res.redirect ("/"); // Send to default route which will have updated list.
+    res.redirect ("/task"); // Send to default route which will have updated list.
     return;
   }
 
@@ -286,22 +285,22 @@ app.delete("/task/delete", function (req , res){
     console.log ("Deleted from redis : " , heading)
   });
   fetchFromRedis();
-  res.redirect ("/"); // Send to default route which will have updated list.
+  res.redirect ("/task"); // Send to default route which will have updated list.
 });
 
 
 
 
-
 // delete request to delete a group
-app.delete("/group/delete", function (req , res){
+app.post("/group/delete", function (req , res){
+  console.log("'/group/delete : '",req.body);
   var groupName = req.body.group;
   console.log("Deleting  group :",groupName);
   console.log("Current groupList : " , groupList)
 
   if (! groupList.includes(groupName)  )   {
     console.log("groupName not found in list...redirecting");
-    res.redirect ("/"); // Send to default route which will have updated list.
+    res.redirect ("/group"); // Send to default route which will have updated list.
     return;
   }
 
@@ -316,7 +315,7 @@ app.delete("/group/delete", function (req , res){
   console.log("groupList after deleting : " , groupList);
   console.log ("Updating Redis with newly modified data .")
   updateDataInRedis(workList);
-  res.redirect ("/"); // Send to default route which will have updated list.
+  res.redirect ("/group"); // Send to default route which will have updated list.
 });
 
 
