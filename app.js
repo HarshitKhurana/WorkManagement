@@ -101,6 +101,12 @@ app.get("/task" , function (req , res){
   return;
 });
 
+// redirect to editTask page
+app.get('/editTask' , function(req,res){
+  console.log ('Requested resource : ',req.params['0'])
+  res.render("editTask.ejs" , {workList: workList , groupList: groupList})
+});
+
 // redirect to group page.
 app.get("/group" , function (req , res){
   console.log ("request on '/group' workList : ",workList , " \t groupList : " ,groupList)
@@ -174,6 +180,26 @@ app.post ("/task/completed" , function( req ,res ){
 });
 
 
+
+// submit route : post req , to toggle the completed status of a task.
+app.post('/task/toggleStatus' , function (req , res){
+  console.log ('Requested resource : /task/toggleStatus' , "\tparams : ",req.body);
+  var heading = req.body.heading;
+  var newStatus="";
+  var oldStatus = [];
+  console.log ("WorkList : " ,workList);
+  for (let  i = 0 ; i < workList.length ; i ++)
+  {
+    if (workList[i][0] === heading)
+      {
+        console.log(" Task found , BEFORE toggling status", workList[i][4])
+        workList[i][4] = !workList[i][4] ;
+        console.log(" Task found , AFTER toggling status" , workList[i][4])        
+      }
+  }
+  updateDataInRedis(workList);
+  res.status(200).send(''); // Just to tell that request is successfull.
+});
 
 
 
@@ -255,6 +281,7 @@ app.post('/group/new' , function (req , res){
 
 // delete request to delete a specific task depending on heading
 app.post("/task/delete", function (req , res){
+  console.log ("request for task deletion : body : ",req.body)
   var heading = req.body.heading;     // headingis the name of input fields in index.ejs
   console.log("Deleting  heading:",heading);
   console.log("Current headingArr : " , headingArr)
@@ -262,7 +289,7 @@ app.post("/task/delete", function (req , res){
 
   if (! headingArr.includes(heading)  )   {
     console.log("heading not found...redirecting");
-    res.redirect ("/task"); // Send to default route which will have updated list.
+    res.redirect ("/editTask"); // Send to default route which will have updated list.
     return;
   }
 
@@ -285,7 +312,7 @@ app.post("/task/delete", function (req , res){
     console.log ("Deleted from redis : " , heading)
   });
   fetchFromRedis();
-  res.redirect ("/task"); // Send to default route which will have updated list.
+  res.redirect ("/editTask"); // Send to default route which will have updated list.
 });
 
 

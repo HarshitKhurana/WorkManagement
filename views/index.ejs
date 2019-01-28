@@ -8,7 +8,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="br" >
-  <script type= "text/javascript" src="./calender.js">
   </script>
 </div>
 
@@ -123,8 +122,9 @@ ul.topnav li.right {float: right;}
     <button class="dropbtn">Tasks 
     </button>
     <div class="dropdown-content">
-      <a href="./deadline">Deadline</a>
       <a href="./task">New Task</a>
+      <a href="./editTask">Edit Task</a>
+      <a href="./deadline">Deadline</a>
     </div>
   </div>
 
@@ -150,7 +150,7 @@ ul.topnav li.right {float: right;}
                   <p style="font-size:18px";><b>Heading  &nbsp;&emsp;:</b> <%=workList[i][0]%></p> 
                   <p style="font-size:18px";><b>Group    &emsp;&emsp;:</b> <%=workList[i][2]%></p> 
                   <p style="font-size:18px";><b>Deadline &emsp;:</b> <%=workList[i][3]%></p> 
-                  <p style="font-size:18px";><b>Completed   &nbsp;:</b><mark> <%=workList[i][4]%></mark></p> 
+                  <p style="font-size:18px";><b>Completed   &nbsp;:</b><mark> <%=workList[i][4]%></mark></p>
                   <p style="font-size:18px";><b>Task &emsp;&emsp;&emsp;:</b> <%=workList[i][1]%></p> 
                 </details>
                 <br>                
