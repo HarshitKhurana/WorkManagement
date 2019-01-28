@@ -115,8 +115,8 @@ app.get("/group" , function (req , res){
 // Get request to fetch tasks and return them in sorted order
 app.get("/deadline" , function (req , res){
   console.log ("request arrived on '/deadline', returning JSON of sorted dates");
-  res.redirect('/');
-  return;
+//  res.redirect('/');
+//  return;
 
 // NEED TO FIX THIS AS FRONTEND SENDS DEADLINE IN : yyyy-mm-dd format. 
 
