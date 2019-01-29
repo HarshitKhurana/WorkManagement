@@ -1,4 +1,6 @@
 FROM node
 WORKDIR /app
 COPY ./ /app
-RUN cd /app && npm i  -g
+RUN cd /app 
+RUN npm install
+COPY . /app
