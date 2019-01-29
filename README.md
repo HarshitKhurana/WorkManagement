@@ -15,9 +15,9 @@
 -> It uses redis for faster storage and retreval of information <br>
 -> The entire app runs inside a docker container be it the Web base application or the redis storage. <br>
 -> Once a task is added it cannot be modified, so take some time while adding the task specially the deadlines. <br>
--> The groups columns helps to club one or more tasks together i.e helps in clubbing of tasks.
--> Tasks listed on 'deadline' are in sorted order as per their deadlines.
--> It only uses docker to run inside a protected environment.
+-> The groups columns helps to club one or more tasks together i.e helps in clubbing of tasks.<br>
+-> Tasks listed on 'deadline' are in sorted order as per their deadlines.<br>
+-> It only uses docker to run inside a protected environment.<br>
 
 <h3>[*] Dependencies</h3>
 -> Since it runs inside a container the first and primary requirement in for installation refer to <a href="https://docs.docker.com/install/">installing docker</a>. <br>
