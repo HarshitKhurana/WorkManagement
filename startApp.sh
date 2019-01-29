@@ -54,8 +54,9 @@ docker run -dit --net=host -p 8080:8080 --name work_management_webapp -v $PWD:/a
 if [ $? -eq 0 ]
 then
   echo -en "[*] Server started, for accessing WebApp visit : 127.0.0.1:8080\n"
+  exit 0
 else
-  echo -en "[#] Unable to WebApp server\n"
+  echo -en "[#] Unable to start WebApp server\n"
   exit 1
 fi
 
