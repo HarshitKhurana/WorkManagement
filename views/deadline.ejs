@@ -6,14 +6,7 @@
 * {
   box-sizing: border-box;
 }
-.footer {
-   position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   color: black;
-   text-align: center;
-}
+
 body {margin: 0;}
 
 .columns {
@@ -48,7 +41,7 @@ body {margin: 0;}
 }
 
 .nGroup p {
-  text-align: right;
+  text-align: left;
 }
 
 .nGroup .grey {
@@ -73,6 +66,12 @@ body {margin: 0;}
   align-items: center;
   text-align: center;
 }
+
+.left-screen {
+  align-items: left;
+  text-align: left;
+}
+
 
 body {margin: 0;}
 
@@ -161,9 +160,9 @@ ul.topnav li.right {float: right;}
   <li><a href="/index">Home</a></li>
 
   <div class="dropdown">
-    <button class="dropbtn">Tasks 
+    <button style="background-color: #4CAF50" class="dropbtn">Tasks 
     </button>
-    <div style="background-color: #4CAF50" class="dropdown-content">
+    <div class="dropdown-content">
       <a href="./task">New Task</a>
       <a href="./editTask">Edit Task</a>
       <a href="./deadline">Deadline</a>
@@ -179,42 +178,14 @@ ul.topnav li.right {float: right;}
   </div>   
 </ul>
 
-
+</br>
+<h2 style="text-align:left"> &nbsp; Upcoming Deadlines..</h2>
 <br>
-<h1 style="text-align:center">Groups Table</h1>
-<h3 style="text-align:center">(Group names must be unique &amp; should not include numeric value)</h3>
-<br> <br> <br>
-<div  class="center-screen" style="width:800px; margin:0 auto;">
-  
-  <ul class="nGroup">
-  	<% for(var i = 0; i < groupList.length; i++) { %>
-     <form action="/group/delete" method="POST">
-     <li class="grey" type="0"><b><%=groupList[i]%>
-        <input type="hidden" name="group" value= <%=groupList[i]%> > </input>  
-        </b> <button class="button" style="float: right;"> &#10007; </button> 
-        </li>
-        </form>
-		<% } %>  
-		<li>
-	
-	<form class="col-6 mx-auto" action="/group/new" method="POST">
-	<input type="text" class="grey" class="nGroup" name="group" placeholder="New Group..."> </li>
-	</ul>
-	<br>
-	<input type="submit" class="button" value="Add Group" >
-	</form>
-	<br>
-	<ul >
-  <h3 align="left">* Cannot delete groups name being used by some task.</h3>
-  <h3 align="left">* Only groups with active 'Notes' are considered, so make sure to add 'Note' with any recently added group, else group would cease to exist.</h3>
+  <ul class="nGroup" >
+    <% for(var i = 0; i < deadline.length; i++) { %>
+     <li class="grey" type="0"><b><%= deadline[i] %></b></li>
+    <% } %>  
   </ul>
-</div>
-
-<div class="footer">
-<footer>
-    <% include partials/footer %>
-</footer>
-</div>
 
 </body>
 </html>

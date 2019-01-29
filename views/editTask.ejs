@@ -8,14 +8,6 @@
 
 </head>
 <style>
-.footer {
-   position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   color: black;
-   text-align: center;
-}
 body {margin: 0;}
 
 .switch {
@@ -200,7 +192,7 @@ ul.topnav li.right {float: right;}
                   <form action="/task/delete" method="POST" accept-charset="application/x-www-form-urlencoded">
 
                    <li > <p style="font-size:18px";><b>Delete Task &nbsp; &nbsp;:</b> 
-                    <input type="hidden" name="heading" value= <%=workList[i][0]%> > </input>  
+                    <input type="hidden" name="heading" value="<%=workList[i][0]%>" > </input>  
                     <button class="button" style="background-color: #4CAF50 ">  &#10007; </button> 
 
                  <li type="0"> <p style="font-size:18px";><b>Heading  &emsp;&emsp;:</b> <%=workList[i][0]%></p>  </li> 
@@ -217,6 +209,9 @@ ul.topnav li.right {float: right;}
                           xmlHttp.open( "POST", "http://"+ip+"/task/toggleStatus", true ); // false for synchronous request
                           xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                           var sendThis = "heading="+heading;
+                          xmlHttp.onload = function(){
+                            setTimeout(function(){ window.location.reload(); }, 1000);
+                          }
                           xmlHttp.send(sendThis);
                         }
                     </script>
@@ -229,11 +224,6 @@ ul.topnav li.right {float: right;}
   </div>
 </div>  
 
-<div class="footer">
-  <footer>
-      <% include partials/footer %>
-  </footer>
-</div>
 </body>
 
 

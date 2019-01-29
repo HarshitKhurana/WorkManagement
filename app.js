@@ -20,6 +20,7 @@ var client = redis.createClient();
 var workList = [];
 var headingArr = [];
 var groupList = [];
+var deadline = [];
 
 function fetchFromRedis() {
   console.log ("Since fetching from redis, thus initialising everything will empty list");
@@ -119,11 +120,7 @@ app.get("/group" , function (req , res){
 
 // Get request to fetch tasks and return them in sorted order
 app.get("/deadline" , function (req , res){
-  console.log ("request arrived on '/deadline', returning JSON of sorted dates");
-//  res.redirect('/');
-//  return;
-
-// NEED TO FIX THIS AS FRONTEND SENDS DEADLINE IN : yyyy-mm-dd format. 
+  console.log ("request arrived on '/deadline'");
 
   let tempObj = {};  // for ts:obj
   let tempArr = []; // for ts
@@ -139,7 +136,9 @@ app.get("/deadline" , function (req , res){
       responseObject[i] = tempObj[tempArr[i]];
   }
   console.log ("RETURNING SORTED : " , responseObject);
-  res.json ({'sorted' : responseObject}); // Sending back JSON
+  deadline = responseObject;
+  console.log ("---------------------- : ",deadline);
+  res.render("deadline.ejs" , {deadline: deadline});
 
 });
 
