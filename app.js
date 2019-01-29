@@ -4,9 +4,11 @@ var app = express();
 
 // Setting up view engine : using embedded JS
 app.set('view engine' , "ejs");
-
+console.log ("__dirname : " , __dirname)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+var absPath = "./";
 
 var time = Number(new Date());
 // ["Heading" , "Task Explaination" , "Group Name" , Deadline Time (epoch), "Task Status, True = Completed", False = not-completed" ]
@@ -91,27 +93,27 @@ app.get("/" , function (req , res){
   //res.sendFile(__dirname + '/index.html'); // __dirname is a method of global object
   // ejs page is rendered unlike sending in case of html
 //  console.log ("request on '/' workList : ",workList , " \t groupList : " ,groupList)
-  res.render("index.ejs" , {workList: workList , groupList: groupList});
+  res.render(absPath+"index.ejs" , {workList: workList , groupList: groupList});
   return;
 });
 
 // redirect to tasks page.
 app.get("/task" , function (req , res){
   console.log ("request on '/task' workList : ",workList , " \t groupList : " ,groupList)
-  res.render("task.ejs" , {workList: workList , groupList: groupList})
+  res.render(absPath+"task.ejs" , {workList: workList , groupList: groupList})
   return;
 });
 
 // redirect to editTask page
 app.get('/editTask' , function(req,res){
   console.log ('Requested resource : ',req.params['0'])
-  res.render("editTask.ejs" , {workList: workList , groupList: groupList})
+  res.render(absPath+"editTask.ejs" , {workList: workList , groupList: groupList})
 });
 
 // redirect to group page.
 app.get("/group" , function (req , res){
   console.log ("request on '/group' workList : ",workList , " \t groupList : " ,groupList)
-  res.render("group.ejs" , {workList: workList , groupList: groupList});
+  res.render(absPath+"group.ejs" , {workList: workList , groupList: groupList});
   return;
 });
 
@@ -151,7 +153,7 @@ app.get("/deadline" , function (req , res){
   console.log ("RETURNING SORTED : " , responseObject);
   deadline = responseObject;
   console.log ("---------------------- : ",deadline);
-  res.render("deadline.ejs" , {deadline: deadline});
+  res.render(absPath+"deadline.ejs" , {deadline: deadline});
 
 });
 
