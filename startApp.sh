@@ -3,6 +3,7 @@
 currdir=`pwd | rev | cut -d / -f 1 | rev`
 
 if [[ $currdir != "WorkManagement" ]]
+then
   echo -en "[#] Move to directory 'WorkManagement' and then execute this\n"
   exit 1
 fi
