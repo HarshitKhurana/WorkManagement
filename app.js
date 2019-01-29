@@ -8,7 +8,7 @@ console.log ("__dirname : " , __dirname)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-var absPath = "./";
+var absPath = "/";
 
 var time = Number(new Date());
 // ["Heading" , "Task Explaination" , "Group Name" , Deadline Time (epoch), "Task Status, True = Completed", False = not-completed" ]

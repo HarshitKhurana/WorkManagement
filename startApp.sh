@@ -1,5 +1,12 @@
 #!/bin/bash
 
+currdir=`pwd | rev | cut -d / -f 1 | rev`
+
+if [ $currdir != "WorkManagement" ]
+  echo -en "[#] Move to directory 'WorkManagement' and then execute this\n"
+  exit 1
+fi
+
 command -v docker > /dev/null 2>&1 
 if [ $? -ne 0 ]
 then
@@ -50,7 +57,7 @@ fi
 echo -en "[*] Starting node container for WebApp\n"
 docker rm --force work_management_webapp > /dev/null 2>&1
 npm i &> /dev/null
-docker run -dit --net=host -p 8080:8080 --name work_management_webapp -v $PWD:/app -v $PWD/views:/views  workmgmt_node node /app/app.js > /dev/null 2>&1
+docker run -dit --net=host --name work_management_webapp -v $PWD:/app -v $PWD/views:/views  node node /app/app.js > /dev/null 2>&1
 if [ $? -eq 0 ]
 then
   echo -en "[*] Server started, for accessing WebApp visit : 127.0.0.1:8080\n"
