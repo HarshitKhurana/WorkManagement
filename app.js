@@ -126,11 +126,24 @@ app.get("/deadline" , function (req , res){
   let tempArr = []; // for ts
   let responseObject = [] ; // It is simply an array of objects sorted as per their timestamp (ascending order).
   for (let  i = 0; i < workList.length; i ++) {
-    tempArr.push( workList[i][3]); // Deadline is at 3rd index , push it's epoch
-    tempObj[workList[i][3]] = workList[i]; // Json of ts:obj for O(1) access.
+// below 3-4 lines before pushing into tempArr is done to push in dd-mm-yyyy format instead of yyyy-mm-dd
+    let b = workList[i][3].split("-")
+    let x = b[2];
+    b[2] = b[0];
+    b[0] = x;
+    b = b.join("-")
+    console.log("----",b)
+    tempArr.push(b); // Deadline is at 3rd index , push it's epoch
+    tempObj[b] = workList[i]; // Json of ts:obj for O(1) access.
+
   }
   
-  tempArr.sort();   // sort tempArr;
+  tempArr.sort(function(a, b){
+    var aa = a.split('-').reverse().join(),
+        bb = b.split('-').reverse().join();
+    return aa < bb ? -1 : (aa > bb ? 1 : 0);
+  });
+  
   for (let  i = 0 ; i < tempArr.length; i ++ )   {
       // Add to responseObject in sorted manner.
       responseObject[i] = tempObj[tempArr[i]];

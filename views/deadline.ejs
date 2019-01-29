@@ -46,7 +46,7 @@ body {margin: 0;}
 
 .nGroup .grey {
   background-color: #eee;
-  font-size: 25px;
+  font-size: 23px;
 }
 
 .button {
@@ -180,12 +180,26 @@ ul.topnav li.right {float: right;}
 
 </br>
 <h2 style="text-align:left"> &nbsp; Upcoming Deadlines..</h2>
-<br>
-  <ul class="nGroup" >
-    <% for(var i = 0; i < deadline.length; i++) { %>
-     <li class="grey" type="0"><b><%= deadline[i] %></b></li>
-    <% } %>  
-  </ul>
 
+  <table class="nGroup" style="width:100%">
+    <tr class="grey">
+      <th>Deadline</th>
+      <th>Heading</th>
+      <th>Task</th> 
+      <th>Group</th>
+    </tr>
+<tr><th></th> <th></th> <th></th> <th></th> </tr> <tr><th></th> <th></th> <th></th> <th></th> </tr>  <tr><th></th> <th></th> <th></th> <th></th> </tr> <tr><th></th> <th></th> <th></th> <th></th> </tr> <tr><th></th> <th></th> <th></th> <th></th> </tr> <tr><th></th> <th></th> <th></th> <th></th> </tr>
+    <ul class="nGroup" >
+      <% for(var i = 0; i < deadline.length; i++) { %>
+      <tr class="grey">
+       <th><b> <%=deadline[i][3]%></b></th>
+       <th><b> <%=deadline[i][0]%></b></th>
+       <th> <%=deadline[i][1]%></th>
+       <th><b> <%=deadline[i][2]%></b></th>       
+       <tr><th></th> <th></th> <th></th> <th></th> </tr> <tr><th></th> <th></th> <th></th> <th></th> </tr>
+       </tr>
+      <% } %>  
+    </ul>
+  </table>
 </body>
 </html>
