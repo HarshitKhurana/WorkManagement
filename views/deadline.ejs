@@ -183,21 +183,21 @@ ul.topnav li.right {float: right;}
 
   <table class="nGroup" style="width:100%">
     <tr class="grey">
-      <th>S No.</th>
-      <th>Deadline</th>
-      <th>Heading</th>
-      <th>Task</th> 
-      <th>Group</th>
+      <th> <font color="21D742">S No.</th>
+      <th> <font color="21D742">Deadline</th>
+      <th> <font color="21D742">Heading</th>
+      <th> <font color="21D742">Task</th> 
+      <th> <font color="21D742">Group</th>
     </tr>
 <tr><th></th> <th></th> <th></th> <th></th> </tr> <tr><th></th> <th></th> <th></th> <th></th> </tr>  <tr><th></th> <th></th> <th></th> <th></th> </tr> <tr><th></th> <th></th> <th></th> <th></th> </tr> <tr><th></th> <th></th> <th></th> <th></th> </tr> <tr><th></th> <th></th> <th></th> <th></th> </tr>
     <ul class="nGroup" >
       <% for(var i = 0; i < deadline.length; i++) { %>
       <tr class="grey">
-       <th width="5%"><b> <%=i+1%></b></th>
-       <th width="10%"><b> <%=deadline[i][3]%></b></th>
+       <th width="5%"><b> <%=i+1%>.</b></th>
+       <th width="10%"><font color="red"><b> <%=deadline[i][3]%></b></font></th>
        <th width="30%"><b> <%=deadline[i][0]%></b></th>
        <th width="40%"> <%=deadline[i][1]%></th>
-       <th width="10%"><b> <%=deadline[i][2]%></b></th>       
+       <th width="10%"><font color="blue"><b> <%=deadline[i][2]%></b></font></th>       
        <tr><th></th> <th></th> <th></th> <th></th> </tr> <tr><th></th> <th></th> <th></th> <th></th> </tr>
        </tr>
       <% } %>  
