@@ -3,3 +3,5 @@ redisData/
 *.sw*
 *.notes
 *.Notes
+*.alias
+
