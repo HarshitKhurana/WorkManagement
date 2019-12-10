@@ -21,7 +21,7 @@
 
 <h3>[*] Dependencies</h3>
 -> Since it runs inside a container the first and primary requirement in for installation refer to <a href="https://docs.docker.com/install/">installing docker</a>. <br>
--> Modules dependencies present in package.json.<br>
+-> Modules dependencies present in package.json, these will be installed in the node\_app docker container.<br>
 
 <h3>[*] Limitations</h3>
 -> Currently no login feature added as it was solely meant to be a personal use app. </br>
