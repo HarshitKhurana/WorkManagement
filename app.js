@@ -123,6 +123,11 @@ app.get("/group" , function (req , res){
 // Get request to fetch tasks and return them in sorted order
 app.get("/deadline" , function (req , res){
   console.log ("request arrived on '/deadline'");
+  res.redirect("/");
+  console.log("*****\t\tUNDER DEVELOPMENT..*********")
+  console.log ("********2 tasks having the same deadline would conflict and it would lead to 1 task being duplicated and 1 task being missed.********\n\n")
+  //res.render(absPath+"deadline.ejs" , {deadline: workList});
+  return;
 
   let tempObj = {};  // for ts:obj
   let tempArr = []; // for ts
@@ -137,8 +142,8 @@ app.get("/deadline" , function (req , res){
     console.log("----",b)
     tempArr.push(b); // Deadline is at 3rd index , push it's epoch
     tempObj[b] = workList[i]; // Json of ts:obj for O(1) access.
-
   }
+  console.log ( "tempArr : "+ tempArr)
   
   tempArr.sort(function(a, b){
     var aa = a.split('-').reverse().join(),
