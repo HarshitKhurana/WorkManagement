@@ -1,5 +1,11 @@
 #!/bin/bash
 
+dockerImageBuild()
+{
+  docker build -t node_app . &> /dev/null
+  return $?
+}
+
 currdir=`pwd | rev | cut -d / -f 1 | rev`
 
 if [[ $currdir != "WorkManagement" ]]
@@ -16,20 +22,20 @@ then
 fi
 
 echo -e "[*] Checking for presence node docker image"
-docker images | grep -i node  | grep -i latest > /dev/null 2>&1
+docker images | grep -i node_app  | grep -i latest > /dev/null 2>&1
 if [ $? -ne 0 ]
 then
-  echo -e "[#] docker images for node not found, pulling image first"
-  docker pull node
+  echo -e "[#] docker image for node_app not found, preparing the image first"
+  dockerImageBuild
   if [ $? -eq 0 ]
   then
-    echo -e "[*] docker image for node pull successfully"
+    echo -e "[*] docker image preperation succesfull"
   else
-    echo -e "[*] docker pull failed"
+    echo -e "[#] docker image preperation failed"
     exit 1
   fi
 else
-  echo -e "[*] docker image for node found"
+  echo -e "[*] docker image for node_app already available"
 fi
 
 echo -e "[*] Checking for presence redis image"
@@ -58,16 +64,13 @@ fi
 echo -en "[*] Starting node container for WebApp\n"
 docker rm --force work_management_webapp > /dev/null 2>&1
 npm i &> /dev/null
-docker run -dit --net=host --name work_management_webapp -v $PWD:/app -v $PWD/views:/views  node node /app/app.js > /dev/null 2>&1
+docker run -dit --net=host --name work_management_webapp -v $PWD:/app -v $PWD/views:/views  node_app node /app/app.js > /dev/null 2>&1
 if [ $? -eq 0 ]
 then
-  echo -en "[*] Server started, for accessing WebApp visit : 127.0.0.1:8080\n"
+  echo -en "[*] Server started, for accessing WebApp visit : 127.0.0.1:8008\n"
   exit 0
 else
   echo -en "[#] Unable to start WebApp server\n"
   exit 1
 fi
-
-# Start redis container with persistent storage
-
 
